@@ -6,12 +6,48 @@ import { useEffect, useState } from "react";
 import { projects } from "@/data/projects";
 
 const skills = [
-  { group: "Cloud", items: ["AWS", "Azure"], x: 14, y: 45, side: "left" },
-  { group: "DevOps", items: ["Docker", "Kubernetes", "GitHub Actions"], x: 29, y: 23, side: "left" },
-  { group: "AI & ML", items: ["LangGraph", "LangChain", "OpenAI API", "TensorFlow", "Hugging Face"], x: 50, y: 12, side: "right" },
-  { group: "Languages", items: ["Python", "Java", "SQL"], x: 71, y: 23, side: "right" },
-  { group: "Data", items: ["Apache Spark", "PostgreSQL", "MongoDB", "Supabase"], x: 86, y: 45, side: "right" },
-  { group: "Automation", items: ["Celery", "Temporal", "Stagehand", "Selenium", "ACCELQ"], x: 50, y: 54, side: "left" },
+  {
+    stage: "01",
+    group: "Build",
+    summary: "Maintainable software and APIs",
+    items: ["Python", "Java", "Django", "REST APIs"],
+    evidence: "Applied across backend services, developer utilities, validation tooling, and high-throughput API workflows.",
+  },
+  {
+    stage: "02",
+    group: "Data",
+    summary: "Reliable storage and processing",
+    items: ["SQL", "PostgreSQL", "MongoDB", "Supabase", "Apache Spark"],
+    evidence: "Used to build transactional migration safeguards, data validation automation, and scalable processing pipelines.",
+  },
+  {
+    stage: "03",
+    group: "Ship",
+    summary: "Safe, repeatable delivery",
+    items: ["Docker", "GitHub Actions", "Helm", "Git"],
+    evidence: "Powers automated CI/CD, containerized releases, checksum validation, and safer database deployment gates.",
+  },
+  {
+    stage: "04",
+    group: "Operate",
+    summary: "Cloud systems that stay dependable",
+    items: ["AWS", "Azure", "Kubernetes", "Rancher"],
+    evidence: "Used for Kubernetes troubleshooting, secrets management, production workloads, and cost-conscious cloud operations.",
+  },
+  {
+    stage: "05",
+    group: "Automate",
+    summary: "Workflows that remove repetition",
+    items: ["Celery", "Temporal", "Stagehand", "Selenium", "ACCELQ"],
+    evidence: "Supports browser research, regression testing, durable job orchestration, and maintainable release automation.",
+  },
+  {
+    stage: "06",
+    group: "Intelligence",
+    summary: "AI grounded in useful systems",
+    items: ["LangGraph", "LangChain", "OpenAI API", "TensorFlow", "Hugging Face"],
+    evidence: "Applied in the Dual Momentum + News Tracker, agentic research workflows, and production-ready AI systems.",
+  },
 ] as const;
 
 const petals = [
@@ -158,60 +194,64 @@ function InkAvatar() {
   );
 }
 
-function SkillTree() {
-  const [activeSkill, setActiveSkill] = useState<(typeof skills)[number]["group"]>("Cloud");
+function SkillWorkflow() {
+  const [activeSkill, setActiveSkill] = useState<(typeof skills)[number]["group"]>("Build");
   const active = skills.find((skill) => skill.group === activeSkill) ?? skills[0];
 
   return (
-    <div className="skill-tree" aria-label="Skills organized as branches of a blossom tree">
-      <svg viewBox="0 0 1000 680" role="img" aria-hidden="true">
-        <defs>
-          <linearGradient id="trunkInk" x1="0" y1="1" x2="1" y2="0">
-            <stop offset="0" stopColor="#3A3430" stopOpacity=".92" />
-            <stop offset="1" stopColor="#5E5148" stopOpacity=".58" />
-          </linearGradient>
-        </defs>
-        <path d="M488 650 C480 550 518 442 500 325 C491 274 516 220 500 74" className="tree-trunk" />
-        <path d="M501 340 C434 303 365 281 273 253 C212 235 158 201 112 156" className="tree-branch" />
-        <path d="M493 287 C420 257 377 207 316 129" className="tree-branch" />
-        <path d="M503 340 C566 303 636 281 727 253 C789 235 843 201 888 156" className="tree-branch" />
-        <path d="M509 286 C579 257 623 207 683 129" className="tree-branch" />
-        <path d="M500 221 C497 168 501 119 500 68" className="tree-branch" />
-        <path d="M497 405 C526 382 555 362 605 342" className="tree-branch" />
-        <path d="M275 252 C218 278 173 291 118 288" className="tree-twig" />
-        <path d="M316 130 C278 115 247 90 223 58" className="tree-twig" />
-        <path d="M727 253 C783 278 829 291 883 288" className="tree-twig" />
-        <path d="M683 130 C721 115 753 90 776 58" className="tree-twig" />
-        <path d="M423 650 Q500 616 577 650" fill="#3A3430" opacity=".09" />
-      </svg>
-      {skills.map((skill) => (
-        <motion.button
-          type="button"
-          key={skill.group}
-          className={`skill-cluster skill-cluster-${skill.side}${activeSkill === skill.group ? " is-active" : ""}`}
-          style={{ left: `${skill.x}%`, top: `${skill.y}%` }}
-          initial={{ opacity: 0, scale: 0.75 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ type: "spring", stiffness: 120, damping: 15 }}
-          whileHover={{ y: -5, scale: 1.02 }}
-          onClick={() => setActiveSkill(skill.group)}
-          aria-pressed={activeSkill === skill.group}
-        >
-          <span className="skill-flower" aria-hidden="true">✿</span>
-          <h3>{skill.group}</h3>
-          <p>{skill.items.join(" · ")}</p>
-        </motion.button>
-      ))}
+    <div className="skills-workflow">
+      <div className="workflow-track" role="list" aria-label="Engineering workflow and technical skills">
+        {skills.map((skill) => (
+          <div className="workflow-step" role="listitem" key={skill.group}>
+            <motion.button
+              type="button"
+              className={`workflow-card${activeSkill === skill.group ? " is-active" : ""}`}
+              whileHover={{ y: -5 }}
+              onClick={() => setActiveSkill(skill.group)}
+              aria-pressed={activeSkill === skill.group}
+              aria-controls="skill-evidence"
+            >
+              <span className="workflow-node" aria-hidden="true" />
+              <span className="workflow-stage">{skill.stage}</span>
+              <strong>{skill.group}</strong>
+              <small>{skill.summary}</small>
+            </motion.button>
+            <AnimatePresence initial={false}>
+              {activeSkill === skill.group && (
+                <motion.div
+                  className="workflow-inline-evidence"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                >
+                  <p>{skill.evidence}</p>
+                  <div>{skill.items.map((item) => <span key={item}>{item}</span>)}</div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        ))}
+      </div>
       <AnimatePresence mode="wait">
         <motion.div
-          className="tree-caption"
+          id="skill-evidence"
+          className="skill-evidence hand-border"
           key={active.group}
-          initial={{ opacity: 0, y: 5 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -5 }}
+          exit={{ opacity: 0, y: -8 }}
+          aria-live="polite"
         >
-          <strong>{active.group}</strong> · {active.items.join(" / ")}
+          <div className="skill-evidence-heading">
+            <span>Selected practice · {active.stage}</span>
+            <strong>{active.group}</strong>
+          </div>
+          <div className="skill-evidence-copy">
+            <p>{active.evidence}</p>
+            <div className="skill-evidence-tags">
+              {active.items.map((item) => <span key={item}>{item}</span>)}
+            </div>
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>
@@ -414,34 +454,21 @@ export function Portfolio() {
         <div className="mist-band" />
         <div className="section-shell">
           <motion.div {...reveal}>
-            <SectionHeading eyebrow="02 · Skills" title="A growing technical practice." />
+            <SectionHeading eyebrow="02 · Skills" title="How I build reliable systems." />
           </motion.div>
           <motion.p className="skills-intro" {...reveal}>
-            From cloud infrastructure and reliable delivery to agentic AI and workflow automation—each branch supports systems built for real-world scale.
+            A connected engineering practice—from maintainable code and data foundations to cloud operations, automation, and production AI.
           </motion.p>
-          <motion.div className="desktop-skill-tree" {...reveal}>
-            <SkillTree />
+          <motion.div {...reveal}>
+            <SkillWorkflow />
           </motion.div>
-          <div className="mobile-skill-list">
-            {skills.map((skill) => (
-              <motion.article key={skill.group} className="skill-list-item" {...reveal}>
-                <span aria-hidden="true">✿</span>
-                <div>
-                  <h3>{skill.group}</h3>
-                  <p>{skill.items.join(" · ")}</p>
-                </div>
-              </motion.article>
-            ))}
-          </div>
           <div className="supporting-skills" aria-label="Additional skills">
             {[
-              "Django",
-              "REST APIs",
               "Redis",
-              "Helm",
-              "Rancher",
               "Playwright",
-              "Git",
+              "Gemini",
+              "Amazon S3",
+              "Athena",
             ].map((item) => (
               <span key={item}>{item}</span>
             ))}

@@ -251,14 +251,29 @@ section[id] {
 }
 
 .hero h1 {
-  margin: 18px 0 12px;
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 18px auto 18px;
   font-family: var(--font-display), serif;
-  font-size: clamp(64px, 9vw, 118px);
+  font-size: clamp(60px, 8.2vw, 108px);
   font-weight: 500;
-  letter-spacing: -0.07em;
+  letter-spacing: -0.055em;
   line-height: 0.94;
-  text-wrap: balance;
+  white-space: nowrap;
   text-shadow: 1px 1px 0 rgba(58, 52, 48, 0.05);
+}
+
+.hero h1::after {
+  content: "";
+  position: absolute;
+  right: 8%;
+  bottom: -10px;
+  left: 12%;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, rgba(168, 50, 31, 0.7) 12% 86%, transparent);
+  clip-path: polygon(0 42%, 17% 30%, 41% 55%, 67% 21%, 100% 47%, 78% 70%, 43% 63%, 14% 76%);
+  opacity: 0.75;
 }
 
 .role-switcher {
@@ -775,7 +790,7 @@ section[id] {
 }
 
 .skills-section {
-  min-height: 980px;
+  min-height: auto;
   background: var(--paper-dark);
 }
 
@@ -798,103 +813,158 @@ section[id] {
   mix-blend-mode: multiply;
 }
 
-.skill-tree {
+.skills-workflow {
   position: relative;
-  max-width: 980px;
-  min-height: 680px;
-  margin: -16px auto 0;
 }
 
-.skill-tree > svg {
+.workflow-track {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 13px;
+  padding-top: 18px;
+}
+
+.workflow-track::before {
+  content: "";
   position: absolute;
-  inset: 0;
+  top: 7px;
+  right: 3%;
+  left: 3%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(58, 52, 48, 0.62) 7% 93%, transparent);
+  clip-path: polygon(0 35%, 22% 0, 47% 54%, 72% 16%, 100% 43%, 76% 92%, 50% 66%, 24% 100%);
+}
+
+.workflow-step {
+  position: relative;
+  min-width: 0;
+}
+
+.workflow-card {
+  position: relative;
+  display: flex;
   width: 100%;
-  height: 100%;
-}
-
-.tree-trunk,
-.tree-branch,
-.tree-twig {
-  fill: none;
-  stroke: url(#trunkInk);
-  stroke-linecap: round;
-}
-
-.tree-trunk { stroke-width: 22; }
-.tree-branch { stroke-width: 11; }
-.tree-twig { stroke-width: 5; opacity: 0.72; }
-
-.skill-cluster {
-  position: absolute;
-  width: 194px;
-  min-height: 104px;
-  padding: 20px 15px;
-  background: rgba(247, 240, 226, 0.83);
-  border: 1px solid rgba(201, 165, 92, 0.6);
-  text-align: center;
-  transform: translate(-50%, -50%);
-  box-shadow: 0 16px 36px rgba(58, 52, 48, 0.08);
+  min-height: 156px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24px 17px 20px;
+  border: 1px solid rgba(201, 165, 92, 0.54);
   color: var(--ink);
-  font-family: inherit;
+  background: rgba(247, 240, 226, 0.62);
+  box-shadow: 0 12px 28px rgba(58, 52, 48, 0.05);
+  text-align: left;
   cursor: pointer;
-  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
-.skill-cluster:hover,
-.skill-cluster:focus-visible,
-.skill-cluster.is-active {
+.workflow-card:hover,
+.workflow-card:focus-visible,
+.workflow-card.is-active {
   border-color: var(--crimson);
   outline: none;
-  background: rgba(249, 241, 226, 0.96);
-  box-shadow: 0 18px 42px rgba(58, 52, 48, 0.12), 0 0 0 3px rgba(232, 165, 152, 0.12);
+  background: rgba(251, 246, 235, 0.92);
+  box-shadow: 0 18px 40px rgba(58, 52, 48, 0.1), 0 0 0 3px rgba(232, 165, 152, 0.11);
 }
 
-.skill-cluster h3,
-.skill-list-item h3 {
-  margin: 0 0 7px;
+.workflow-node {
+  position: absolute;
+  top: -18px;
+  left: 18px;
+  width: 15px;
+  height: 15px;
+  border: 3px solid var(--paper-dark);
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 1px rgba(58, 52, 48, 0.45);
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.workflow-card.is-active .workflow-node {
+  background: var(--crimson);
+  transform: scale(1.18);
+}
+
+.workflow-stage {
+  color: var(--crimson);
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+}
+
+.workflow-card strong {
+  margin-top: 13px;
   font-family: var(--font-display), serif;
   font-size: 22px;
   font-weight: 600;
 }
 
-.skill-cluster p,
-.skill-list-item p {
-  margin: 0;
+.workflow-card small {
+  margin-top: 8px;
   color: var(--ink-soft);
   font-family: var(--font-mono), monospace;
-  font-size: 10px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
+  font-size: 9px;
+  line-height: 1.55;
 }
 
-.skill-flower {
-  position: absolute;
-  top: -18px;
-  left: 50%;
+.skill-evidence {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.7fr) minmax(0, 1.6fr);
+  gap: 40px;
+  align-items: center;
+  margin-top: 34px;
+  padding: 32px 36px;
+  background: rgba(247, 240, 226, 0.72);
+}
+
+.skill-evidence-heading {
+  display: flex;
+  flex-direction: column;
+}
+
+.skill-evidence-heading span {
   color: var(--crimson);
-  font-size: 30px;
-  transform: translateX(-50%);
-  text-shadow: 0 0 0 var(--blossom);
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.tree-caption {
-  position: absolute;
-  right: 0;
-  bottom: 12px;
-  left: 0;
+.skill-evidence-heading strong {
+  margin-top: 8px;
+  font-family: var(--font-display), serif;
+  font-size: 34px;
+  font-weight: 600;
+}
+
+.skill-evidence-copy p,
+.workflow-inline-evidence p {
+  margin: 0;
   color: var(--ink-soft);
-  font-size: 13px;
-  font-style: italic;
-  text-align: center;
+  font-size: 14px;
+  line-height: 1.75;
 }
 
-.tree-caption strong {
-  color: var(--crimson);
-  font-style: normal;
+.skill-evidence-tags,
+.workflow-inline-evidence > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 17px;
 }
 
-.mobile-skill-list {
+.skill-evidence-tags span,
+.workflow-inline-evidence span {
+  padding: 6px 8px;
+  border: 1px solid rgba(201, 165, 92, 0.5);
+  color: var(--ink-soft);
+  font-family: var(--font-mono), monospace;
+  font-size: 9px;
+}
+
+.workflow-inline-evidence {
   display: none;
+  overflow: hidden;
 }
 
 .supporting-skills {
@@ -903,7 +973,7 @@ section[id] {
   flex-wrap: wrap;
   justify-content: center;
   gap: 9px;
-  margin: 12px auto 0;
+  margin: 30px auto 0;
 }
 
 .experience-section {
@@ -1407,6 +1477,25 @@ footer > a {
   font-size: 9px;
 }
 
+@media (max-width: 1100px) {
+  .workflow-track {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    padding-top: 0;
+  }
+
+  .workflow-track::before {
+    display: none;
+  }
+
+  .workflow-node {
+    top: 15px;
+    right: 15px;
+    left: auto;
+    border-color: rgba(247, 240, 226, 0.9);
+  }
+}
+
 @media (max-width: 900px) {
   .hero-branch {
     width: 47vw;
@@ -1422,33 +1511,13 @@ footer > a {
     grid-template-columns: 1fr 1fr;
   }
 
-  .desktop-skill-tree {
-    display: none;
-  }
-
-  .mobile-skill-list {
-    display: grid;
+  .workflow-track {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
   }
 
-  .skill-list-item {
-    display: grid;
-    grid-template-columns: 42px minmax(0, 1fr);
-    gap: 13px;
-    align-items: center;
-    padding: 22px;
-    border: 1px solid rgba(201, 165, 92, 0.52);
-    background: rgba(247, 240, 226, 0.5);
-  }
-
-  .skill-list-item > span {
-    color: var(--crimson);
-    font-size: 29px;
-  }
-
-  .skills-section {
-    min-height: auto;
+  .skill-evidence {
+    grid-template-columns: 1fr;
+    gap: 18px;
   }
 
   .supporting-skills {
@@ -1526,7 +1595,7 @@ footer > a {
   }
 
   .hero h1 {
-    font-size: clamp(54px, 17vw, 80px);
+    font-size: clamp(48px, 13.5vw, 76px);
   }
 
   .hero-intro {
@@ -1609,23 +1678,27 @@ footer > a {
     bottom: 28px;
   }
 
-  .mobile-skill-list {
+  .workflow-track {
     grid-template-columns: 1fr;
     gap: 14px;
   }
 
-  .skill-list-item {
-    display: grid;
-    grid-template-columns: 46px 1fr;
-    gap: 14px;
-    align-items: center;
-    padding: 22px;
-    border-color: rgba(201, 165, 92, 0.65);
+  .workflow-card {
+    min-height: 124px;
+    padding: 22px 54px 19px 20px;
   }
 
-  .skill-list-item > span {
-    color: var(--crimson);
-    font-size: 31px;
+  .skill-evidence {
+    display: none;
+  }
+
+  .workflow-inline-evidence {
+    display: block;
+    padding: 0 18px 20px;
+    border-right: 1px solid rgba(201, 165, 92, 0.45);
+    border-bottom: 1px solid rgba(201, 165, 92, 0.45);
+    border-left: 1px solid rgba(201, 165, 92, 0.45);
+    background: rgba(247, 240, 226, 0.48);
   }
 
   .supporting-skills {
@@ -1728,7 +1801,7 @@ footer > a {
   }
 
   .hero h1 {
-    font-size: clamp(48px, 17vw, 68px);
+    font-size: clamp(42px, 14vw, 58px);
   }
 
   .role-switcher {
